@@ -1,165 +1,108 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Poppins',sans-serif;
+const cells = document.querySelectorAll(".cell");
+const statusText = document.getElementById("status");
+
+let board = ["","","","","","","","",""];
+let currentPlayer = "X";
+let active = true;
+
+let xScore = 0;
+let oScore = 0;
+let drawScore = 0;
+
+const wins = [
+ [0,1,2],[3,4,5],[6,7,8],
+ [0,3,6],[1,4,7],[2,5,8],
+ [0,4,8],[2,4,6]
+];
+
+cells.forEach(cell=>{
+ cell.addEventListener("click",handleClick);
+});
+
+function handleClick(){
+
+ const index=this.dataset.index;
+
+ if(board[index]!=="" || !active) return;
+
+ board[index]=currentPlayer;
+
+ this.textContent=currentPlayer;
+ this.classList.add(currentPlayer.toLowerCase());
+
+ checkWinner();
 }
 
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  background:#050816;
-}
+function checkWinner(){
 
-.bg-animation{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-      -45deg,
-      #ff006e,
-      #8338ec,
-      #3a86ff,
-      #06ffa5
-  );
-  background-size:400% 400%;
-  animation:gradient 12s ease infinite;
-  z-index:-1;
-}
+ for(let combo of wins){
 
-@keyframes gradient{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}
+  let [a,b,c]=combo;
 
-.container{
-  width:90%;
-  max-width:550px;
-  text-align:center;
-}
+  if(
+   board[a] &&
+   board[a]===board[b] &&
+   board[a]===board[c]
+  ){
 
-h1{
-  color:white;
-  margin-bottom:20px;
-  font-size:3rem;
-  text-shadow:0 0 20px white;
-}
+   cells[a].classList.add("winner");
+   cells[b].classList.add("winner");
+   cells[c].classList.add("winner");
 
-.scoreboard{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
-}
+   statusText.innerHTML=`🏆 Player ${currentPlayer} Wins!`;
 
-.score-card{
-  flex:1;
-  padding:15px;
-  color:white;
-  backdrop-filter:blur(20px);
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:20px;
-}
+   if(currentPlayer==="X"){
+      xScore++;
+      document.getElementById("xScore").textContent=xScore;
+   }else{
+      oScore++;
+      document.getElementById("oScore").textContent=oScore;
+   }
 
-.status{
-  color:white;
-  font-size:1.3rem;
-  margin-bottom:20px;
-  font-weight:600;
-}
-
-.board{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  padding:20px;
-  border-radius:25px;
-  backdrop-filter:blur(20px);
-  background:rgba(255,255,255,.08);
-  box-shadow:
-      0 0 25px rgba(255,255,255,.2),
-      0 0 50px rgba(0,255,255,.2);
-}
-
-.cell{
-  aspect-ratio:1;
-  border-radius:20px;
-  background:rgba(255,255,255,.1);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  cursor:pointer;
-  transition:.3s;
-  font-size:4rem;
-  font-weight:bold;
-}
-
-.cell:hover{
-  transform:translateY(-5px) scale(1.05);
-}
-
-.x{
-  color:#00f5ff;
-  text-shadow:
-      0 0 10px #00f5ff,
-      0 0 30px #00f5ff;
-}
-
-.o{
-  color:#ff006e;
-  text-shadow:
-      0 0 10px #ff006e,
-      0 0 30px #ff006e;
-}
-
-.winner{
-  animation:winnerGlow 1s infinite;
-}
-
-@keyframes winnerGlow{
-  0%{
-      transform:scale(1);
-      box-shadow:0 0 15px #06ffa5;
+   active=false;
+   return;
   }
-  50%{
-      transform:scale(1.1);
-      box-shadow:0 0 40px #06ffa5;
-  }
-  100%{
-      transform:scale(1);
-      box-shadow:0 0 15px #06ffa5;
-  }
+ }
+
+ if(!board.includes("")){
+   drawScore++;
+   document.getElementById("drawScore").textContent=drawScore;
+   statusText.innerHTML="🤝 Draw Match!";
+   active=false;
+   return;
+ }
+
+ currentPlayer=currentPlayer==="X"?"O":"X";
+ statusText.innerHTML=`Player ${currentPlayer}'s Turn`;
 }
 
-.buttons{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
+document.getElementById("restartBtn")
+.addEventListener("click",restartGame);
+
+function restartGame(){
+
+ board=["","","","","","","","",""];
+ active=true;
+ currentPlayer="X";
+
+ statusText.innerHTML="Player X's Turn";
+
+ cells.forEach(cell=>{
+   cell.textContent="";
+   cell.className="cell";
+ });
 }
 
-button{
-  flex:1;
-  padding:14px;
-  border:none;
-  border-radius:15px;
-  cursor:pointer;
-  font-weight:600;
-  transition:.3s;
-}
+document.getElementById("resetBtn")
+.addEventListener("click",()=>{
 
-button:hover{
-  transform:translateY(-3px);
-}
+ xScore=0;
+ oScore=0;
+ drawScore=0;
 
-#restartBtn{
-  background:#00f5ff;
-}
+ document.getElementById("xScore").textContent=0;
+ document.getElementById("oScore").textContent=0;
+ document.getElementById("drawScore").textContent=0;
 
-#resetBtn{
-  background:#ff006e;
-  color:white;
-}
+ restartGame();
+});
