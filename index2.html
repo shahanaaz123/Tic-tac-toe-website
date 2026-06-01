@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="bg-animation"></div>
+
 <div class="container">
 
-    <h1>Tic Tac Toe</h1>
+  <h1>🎮 Neon Tic Tac Toe</h1>
 
-    <div class="scoreboard">
-        <div class="score-card">
-            <span>X Wins</span>
-            <h2 id="xScore">0</h2>
-        </div>
-
-        <div class="score-card">
-            <span>Draws</span>
-            <h2 id="drawScore">0</h2>
-        </div>
-
-        <div class="score-card">
-            <span>O Wins</span>
-            <h2 id="oScore">0</h2>
-        </div>
+  <div class="scoreboard">
+    <div class="score-card">
+      <span>Player X</span>
+      <h2 id="xScore">0</h2>
     </div>
 
-    <div class="status" id="status">
-        Player X's Turn
+    <div class="score-card">
+      <span>Draws</span>
+      <h2 id="drawScore">0</h2>
     </div>
 
-    <div class="board">
-        <div class="cell" data-index="0"></div>
-        <div class="cell" data-index="1"></div>
-        <div class="cell" data-index="2"></div>
-        <div class="cell" data-index="3"></div>
-        <div class="cell" data-index="4"></div>
-        <div class="cell" data-index="5"></div>
-        <div class="cell" data-index="6"></div>
-        <div class="cell" data-index="7"></div>
-        <div class="cell" data-index="8"></div>
+    <div class="score-card">
+      <span>Player O</span>
+      <h2 id="oScore">0</h2>
     </div>
+  </div>
 
-    <div class="buttons">
-        <button id="restartBtn">Restart Game</button>
-        <button id="resetScoreBtn">Reset Scores</button>
-    </div>
+  <div id="status" class="status">
+    Player X's Turn
+  </div>
+
+  <div class="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+  </div>
+
+  <div class="buttons">
+    <button id="restartBtn">Restart Game</button>
+    <button id="resetBtn">Reset Scores</button>
+  </div>
 
 </div>
 
